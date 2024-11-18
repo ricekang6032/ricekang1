@@ -89,7 +89,7 @@ fun Start(m: Modifier, game:Game,screenW:Int){
                     counter2++
                 }, modifier = m
             ) {
-                Text(text = "加1")
+                Text(text = "加一")
             }
             Text(text = counter2.toString(), modifier = m)
         }
