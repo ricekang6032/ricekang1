@@ -15,6 +15,7 @@ class Game(val scope: CoroutineScope, screenW:Int, val screenH: Int,scale:Float,
     val background = Background(screenW)
     val boy = Boy(screenH, scale)
     val virus = Virus(screenW, screenH, scale)
+    val virus2 = Virus(screenW, screenH, scale)
     var isPlaying = true
     fun Play(){
         scope.launch {
@@ -27,6 +28,8 @@ class Game(val scope: CoroutineScope, screenW:Int, val screenH: Int,scale:Float,
                 if (counter % 3 == 0){
                     boy.Walk()
                     virus.Fly()
+                    virus2.Fly()
+
                     if(boy.getRect().intersect(virus.getRect())) {
                         isPlaying = false
                         mper1.pause()
@@ -44,7 +47,6 @@ class Game(val scope: CoroutineScope, screenW:Int, val screenH: Int,scale:Float,
         isPlaying = true
         Play()
     }
-
 }
 
 
