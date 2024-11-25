@@ -1,5 +1,6 @@
 package com.example.game2d
 
+import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -23,9 +25,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -46,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     val screenW = resources.displayMetrics.widthPixels
                     val screenH = resources.displayMetrics.heightPixels
                     val scale = resources.displayMetrics.density
-                    val game = Game(GlobalScope,screenW,screenH,scale)
+                    val game = Game(GlobalScope,screenW,screenH,scale,this)
                     Start(m = Modifier.padding(innerPadding),game,screenW)
                 }
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
@@ -103,16 +107,24 @@ fun Start(m: Modifier, game:Game,screenW:Int){
                 )
             }
     )
+    if (msg == "遊戲暫停" && !game.isPlaying){
+        msg = "遊戲結束，按此按鍵重新開始遊戲"
+    }
     Row {
             Button(
                 onClick = {
-                    if (msg == "遊戲開始") {
+                    if (msg == "遊戲開始"|| msg =="遊戲繼續") {
                         msg = "遊戲暫停"
                         game.Play()
-                    } else {
-                        msg = "遊戲開始"
+                    } else  if (msg=="遊戲暫停"){
+                        msg = "遊戲繼續"
                         game.isPlaying = false
                     }
+                    else{
+                        msg = "遊戲暫停"
+                        game.Restart()
+                    }
+
                 }, modifier = m
             ) {
                 Text(text = msg)
@@ -128,6 +140,21 @@ fun Start(m: Modifier, game:Game,screenW:Int){
             }
             Text(text = counter2.toString(), modifier = m)
         }
+    val activity = (LocalContext.current as? Activity)
+    Box (
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomEnd
+    ){
+        Button(
+            onClick = {
+                game.mper1.stop()
+                game.mper2.stop()
+                activity?.finish()
+            }
+        ) {
+            Text("結束App")
+        }
     }
+}
 
 

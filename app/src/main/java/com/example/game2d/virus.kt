@@ -1,10 +1,12 @@
 package com.example.game2d
+import android.graphics.Rect
 
 class Virus(val screenW:Int, val screenH:Int, scale:Float) {
     var w = (80 * scale).toInt()
     var h = (80 * scale).toInt()
     var x = screenW
     var y = (screenH/2).toInt()
+    var zoomout = (10 * scale).toInt()
 
     var pictNo = 0
 
@@ -24,6 +26,8 @@ class Virus(val screenW:Int, val screenH:Int, scale:Float) {
             Reset()
         }
     }
-
+    fun getRect(): Rect {
+        return Rect(x+zoomout, y+zoomout,x+w-zoomout, y+h-zoomout)
+    }
 }
 

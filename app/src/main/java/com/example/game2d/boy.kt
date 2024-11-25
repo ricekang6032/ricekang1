@@ -1,4 +1,5 @@
 package com.example.game2d
+import android.graphics.Rect
 
 class Boy(screenH:Int, scale:Float) {
     var w = (100 * scale).toInt()  //小男孩寬度
@@ -6,6 +7,8 @@ class Boy(screenH:Int, scale:Float) {
     var x = 0  //小男孩x軸座標
     var y = screenH - h  //小男孩y軸座標
     var pictNo = 0  //切換圖片
+    var zoomout = (10 * scale).toInt()  //圖片內縮
+
 
     fun Walk() {
         pictNo++
@@ -13,4 +16,8 @@ class Boy(screenH:Int, scale:Float) {
             pictNo = 0
         }
     }
+    fun getRect(): Rect {
+        return Rect(x+zoomout, y+zoomout,x+w-zoomout, y+h-zoomout)
+    }
+
 }
