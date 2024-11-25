@@ -107,6 +107,7 @@ fun Start(m: Modifier, game:Game,screenW:Int){
                 )
             }
     )
+
     if (msg == "遊戲暫停" && !game.isPlaying){
         msg = "遊戲結束，按此按鍵重新開始遊戲"
     }
@@ -129,7 +130,7 @@ fun Start(m: Modifier, game:Game,screenW:Int){
             ) {
                 Text(text = msg)
             }
-            Text(text = counter.toString(), modifier = m)
+            Text(text = "%.2f秒".format(counter*.04), modifier = m)
 
             Button(
                 onClick = {
@@ -143,7 +144,7 @@ fun Start(m: Modifier, game:Game,screenW:Int){
     val activity = (LocalContext.current as? Activity)
     Box (
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomEnd
+        contentAlignment = Alignment.BottomCenter
     ){
         Button(
             onClick = {
